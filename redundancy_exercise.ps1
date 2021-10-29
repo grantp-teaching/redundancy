@@ -37,7 +37,22 @@ required units = total units - extra units
 
 }
     1 {
-	$
+	$N = Get-Random -Min 2 -Max 5
+	$UnitCapacity = 5 * $(Get-Random -Min 2 -Max 10)
+	$TotalDemand = $N * $UnitCapacity
+	$ExtraUnits = Get-Random -Min 1 -Max 3
+	$QuestionText = "A cooling system is required to remove $TotalDemand kW of heat. How many $UnitCapacity kW CRACs are required if N+$ExtraUnits redundancy is specified."
+	$Target = [math]::Ceiling($N + $ExtraUnits)
+	$Units = ""
+	$Solution = "First calculate the number of units needed to meet the demand (N):
+N = ceiling ( ( total demand ) / ( capacity per unit ) )
+  = ceiling ( $TotalDemand kW / $UnitCapacity kW )
+  = ceiling ( $($TotalDemand / $UnitCapacity) ) 
+  = $($Target-$ExtraUnits)
+Then add the additional units for the +$ExtraUnits :
+N + $ExtraUnits = $($Target-$ExtraUnits) + $ExtraUnits 
+      = $Target
+"
     }
 default {
 	Write-Error "Variant $Variant not found"
