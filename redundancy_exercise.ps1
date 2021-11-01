@@ -3,7 +3,7 @@
 
 param(
 [Parameter()]
-[int] $Variant = (Get-Random -Min 0 -Max 1)
+[int] $Variant = (Get-Random -Min 0 -Max 2)
 )
 
 $GreenCheck = @{
@@ -37,11 +37,12 @@ required units = total units - extra units
 
 }
     1 {
+	$System = @("UPS","cooling") | Get-Random
 	$N = Get-Random -Min 2 -Max 5
 	$UnitCapacity = 5 * $(Get-Random -Min 2 -Max 10)
 	$TotalDemand = $N * $UnitCapacity
 	$ExtraUnits = Get-Random -Min 1 -Max 3
-	$QuestionText = "A cooling system is required to remove $TotalDemand kW of heat. How many $UnitCapacity kW CRACs are required if N+$ExtraUnits redundancy is specified."
+	$QuestionText = "A $System system is required for $TotalDemand kW. How many $UnitCapacity kW units are required if N+$ExtraUnits redundancy is specified."
 	$Target = [math]::Ceiling($N + $ExtraUnits)
 	$Units = ""
 	$Solution = "First calculate the number of units needed to meet the demand (N):
